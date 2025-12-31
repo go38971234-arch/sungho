@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "qa03",
+        "./dongbin/utils",
+        "./dongbin"
+    ]
+}
