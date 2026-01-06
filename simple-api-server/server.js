@@ -10,6 +10,9 @@ app.use(express.json());
 app.get('/hello', (req, res) => {
   res.send('Hello World');
 });
+app.get('/bye', (req, res) => {
+  res.send('bye World');
+});
 
 app.get('/api/data', (req, res) => {
   res.send('data~');
