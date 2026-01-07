@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "404e5fde-a767-4e33-8974-9f95a26d7387",
+		"name": "jsonholder",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "51158793",
+		"_collection_link": "https://go38971234-5300884.postman.co/workspace/%25EA%25B0%25B1%25EC%2593%25B0's-Workspace~4791b612-9773-4674-80c9-dd970b4b15ef/collection/51158793-404e5fde-a767-4e33-8974-9f95a26d7387?action=share&source=collection_link&creator=51158793"
+	},
+	"item": [
+		{
+			"name": "제이슨홀더-게시물각져오기",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts/1",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "Post data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"username\": \"ekyaho\",\n\"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{JSON_URL}}/posts",
+					"host": [
+						"{{JSON_URL}}"
+					],
+					"path": [
+						"posts"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"pm.test(\"응답 데이터가 iterationData와 완전히 일치한다\", function () {\r",
+					"\r",
+					"  // 1️⃣ 서버 응답 Body를 JSON 객체로 파싱\r",
+					"  // GET /posts/1 이므로 배열이 아니라 객체임\r",
+					"  const responseData = pm.response.json();\r",
+					"\r",
+					"  // 2️⃣ Collection Runner에 업로드한 JSON 파일에서\r",
+					"  // 현재 iteration의 값들을 가져옴\r",
+					"  //\r",
+					"  // iterationData는 \"한 row\" 기준이라\r",
+					"  // 배열이 아닌 객체 형태로 접근함\r",
+					"  const expectedData = {\r",
+					"    userId: pm.iterationData.get(\"userId\"),\r",
+					"    id: pm.iterationData.get(\"id\"),\r",
+					"    title: pm.iterationData.get(\"title\"),\r",
+					"    body: pm.iterationData.get(\"body\")\r",
+					"  };\r",
+					"\r",
+					"  // 3️⃣ 응답 데이터와 iterationData를 깊은 비교(eql)\r",
+					"  // 값 + 타입까지 전부 동일해야 통과\r",
+					"  pm.expect(responseData).to.eql(expectedData);\r",
+					"});"
+				]
+			}
+		}
+	]
+}
